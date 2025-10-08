@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useReducer } from "react";
+import { useEffect, useMemo } from "react";
 import Formulario from "./components/Formulario";
-import { actividadReducer, estadoInicial } from "./reducers/actividad-reducer";
 import ListaActividades from "./components/ListaActividades";
 import EstadisticasCalorias from "./components/EstadisticasCalorias";
+import { useActividad } from "./hooks/useActividad";
 
 function App() {
-  const [state, dispatch] = useReducer(actividadReducer, estadoInicial);
+  const { state, dispatch } = useActividad();
 
   useEffect(() => {
     localStorage.setItem("actividades", JSON.stringify(state.actividades));
@@ -33,17 +33,17 @@ function App() {
       </header>
       <section className="bg-lime-500 py-20 px-5">
         <div className="max-w-4xl mx-auto">
-          <Formulario dispatch={dispatch} state={state} />
+          <Formulario />
         </div>
       </section>
 
       <section className="bg-gray-800 py-10">
         <div className="max-w-4xl mx-auto">
-          <EstadisticasCalorias actividades={state.actividades} />
+          <EstadisticasCalorias />
         </div>
       </section>
       <section className="p-10 mx-auto max-w-4xl">
-        <ListaActividades actividades={state.actividades} dispatch={dispatch} />
+        <ListaActividades />
       </section>
     </>
   );

@@ -1,24 +1,8 @@
-import type { Actividad } from "../types";
-import { categorias } from "../data/categorias";
-import { useMemo, type Dispatch } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import type { ActividadAcciones } from "../reducers/actividad-reducer";
+import { useActividad } from "../hooks/useActividad";
 
-type ListaActividadesProps = {
-  actividades: Actividad[];
-  dispatch: Dispatch<ActividadAcciones>;
-};
-export default function ListaActividades({
-  actividades,
-  dispatch,
-}: ListaActividadesProps) {
-  const nombreCategoria = useMemo(
-    () => (categoria: Actividad["categoria"]) =>
-      categorias.map((cat) => (cat.id === categoria ? cat.name : "")),
-    [actividades]
-  );
-
-  const estaVacio = useMemo(() => actividades.length === 0, [actividades]);
+export default function ListaActividades() {
+  const { state, dispatch, nombreCategoria, estaVacio } = useActividad();
 
   return (
     <>
@@ -29,7 +13,7 @@ export default function ListaActividades({
       {estaVacio ? (
         <p className="text-center my-8">No hay actividades aún...</p>
       ) : (
-        actividades.map((actividad) => (
+        state.actividades.map((actividad) => (
           <div
             className="px-5 py-10 bg-white mt-5 flex justify-between"
             key={actividad.id}

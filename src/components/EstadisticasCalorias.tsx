@@ -1,38 +1,8 @@
-import { useMemo } from "react";
-import type { Actividad } from "../types";
 import DetalleCalorias from "./DetalleCalorias";
+import { useActividad } from "../hooks/useActividad";
 
-type EstadisticasCaloriasProps = {
-  actividades: Actividad[];
-};
-export default function EstadisticasCalorias({
-  actividades,
-}: EstadisticasCaloriasProps) {
-  //Contadores
-  const caloriasConsumidas = useMemo(
-    () =>
-      actividades.reduce(
-        (total, actividad) =>
-          actividad.categoria === 1 ? total + actividad.calorias : total,
-        0
-      ),
-    [actividades]
-  );
-
-  const caloriasQuemadas = useMemo(
-    () =>
-      actividades.reduce(
-        (total, actividad) =>
-          actividad.categoria === 2 ? total + actividad.calorias : total,
-        0
-      ),
-    [actividades]
-  );
-
-  const total = useMemo(
-    () => caloriasConsumidas - caloriasQuemadas,
-    [actividades]
-  );
+export default function EstadisticasCalorias() {
+  const { caloriasConsumidas, caloriasQuemadas, total } = useActividad();
 
   return (
     <>
